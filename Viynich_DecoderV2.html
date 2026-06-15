@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voynich Tech Analyzer - Технологический анализ рукописи</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #e67e22;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 2em;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 10px 40px 10px 15px;
+            border: 2px solid var(--light);
+            border-radius: 25px;
+            width: 300px;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+            width: 350px;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: var(--primary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .filter-select {
+            padding: 10px 20px;
+            border: 2px solid var(--light);
+            border-radius: 25px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-select:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            color: var(--primary);
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px) rotate(2deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .page-viewer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            min-height: 600px;
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .manuscript-image {
+            max-width: 100%;
+            max-height: 800px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .manuscript-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .text-analysis {
+            margin-top: 20px;
+        }
+
+        .eva-text {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .word {
+            display: inline-block;
+            padding: 2px 6px;
+            margin: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .word:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .word.high-freq { background: #d5f5e3; }
+        .word.medium-freq { background: #fef9e7; }
+        .word.low-freq { background: #fadbd8; }
+        .word.plant-name { background: #d6eaf8; font-weight: bold; }
+
+        .translation-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .translation-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .process-diagram {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .flow-chart {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .flow-node {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-align: center;
+            min-width: 120px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: var(--accent);
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        .frequency-calculator {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .calc-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--light);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .calc-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .calc-button:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .calc-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .plant-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .filter-tag {
+            background: var(--light);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            color: var(--accent);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @media (max-width: 968px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .search-box input {
+                width: 200px;
+            }
+            
+            .search-box input:focus {
+                width: 220px;
+            }
+        }
+
+        .tooltip {
+            position: fixed;
+            background: var(--dark);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 300px;
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        .highlight {
+            animation: highlight 2s ease;
+        }
+
+        @keyframes highlight {
+            0%, 100% { background: transparent; }
+            50% { background: yellow; }
+        }
+
+        .error-message {
+            background: #fadbd8;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+            margin: 10px 0;
+        }
+
+        .success-message {
+            background: #d5f5e3;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🔬 Voynich Tech Analyzer</div>
+            <div class="controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Поиск по словам EVA...">
+                    <button class="search-btn" onclick="searchWord()">🔍</button>
+                </div>
+                <select class="filter-select" id="sectionFilter" onchange="filterSection()">
+                    <option value="all">Все разделы</option>
+                    <option value="herbal">🌿 Ботаника</option>
+                    <option value="astronomical">🌙 Астрономия</option>
+                    <option value="biological">🧪 Банный раздел</option>
+                    <option value="pharmaceutical">💊 Фармацевтика</option>
+                </select>
+                <select class="filter-select" id="frequencyFilter" onchange="filterFrequency()">
+                    <option value="all">Все частоты</option>
+                    <option value="high">Высокая (>50)</option>
+                    <option value="medium">Средняя (5-50)</option>
+                    <option value="low">Низкая (<5)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-grid">
+            <aside class="sidebar">
+                <div class="section-title">📊 Статистика</div>
+                <div class="stats-grid">
+                    <div class="stat-card" onclick="showDetails('pages')">
+                        <span class="stat-value" id="totalPages">240</span>
+                        <span class="stat-label">Страниц</span>
+                    </div>
+                    <div class="stat-card" onclick="showDetails('words')">
+                        <span class="stat-value" id="totalWords">170k</span>
+                        <span class="stat-label">Слов</span>
+                    </div>
+                    <div class="stat-card" onclick="showDetails('plants')">
+                        <span class="stat-value" id="totalPlants">116</span>
+                        <span class="stat-label">Растений</span>
+                    </div>
+                    <div class="stat-card" onclick="showDetails('unique')">
+                        <span class="stat-value" id="uniqueWords">7.5k</span>
+                        <span class="stat-label">Уникальных</span>
+                    </div>
+                </div>
+
+                <div class="section-title">🌿 Фильтр растений</div>
+                <div class="plant-filter" id="plantFilter">
+                    <!-- Динамически заполняется -->
+                </div>
+
+                <div class="section-title" style="margin-top: 20px;">🧮 Калькулятор</div>
+                <div class="frequency-calculator">
+                    <input type="text" class="calc-input" id="calcWord" placeholder="Введите слово EVA">
+                    <button class="calc-button" onclick="calculateFrequency()">Анализ</button>
+                    <div class="calc-result" id="calcResult"></div>
+                </div>
+
+                <div class="section-title" style="margin-top: 20px;">📖 Разделы</div>
+                <div class="section-tabs">
+                    <div class="tab active" onclick="switchTab('overview')">Обзор</div>
+                    <div class="tab" onclick="switchTab('process')">Процессы</div>
+                    <div class="tab" onclick="switchTab('calendar')">Календарь</div>
+                </div>
+            </aside>
+
+            <main class="content-area">
+                <div class="page-viewer">
+                    <h2 id="pageTitle">Страница f68r1 - Астрономический раздел</h2>
+                    
+                    <div class="image-container">
+                        <div class="image-loader" id="imageLoader">
+                            <div class="spinner"></div>
+                            <div>Загрузка изображения...</div>
+                        </div>
+                        <img id="manuscriptImage" class="manuscript-image" alt="Voynich Manuscript Page">
+                    </div>
+
+                    <div class="text-analysis">
+                        <h3>Текст EVA:</h3>
+                        <div class="eva-text" id="evaText">
+                            <!-- Динамически заполняется -->
+                        </div>
+
+                        <div class="translation-box">
+                            <div class="translation-title">🔮 Перевод и интерпретация:</div>
+                            <div id="translation">
+                                <!-- Динамически заполняется -->
+                            </div>
+                        </div>
+
+                        <div class="process-diagram">
+                            <h3>🔄 Схема процесса:</h3>
+                            <div class="flow-chart" id="processDiagram">
+                                <!-- Динамически заполняется -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Глобальные данные
+        const voynichData = {
+            currentPage: 'f68r1',
+            images: {
+                primary: 'https://upload.wikimedia.org/wikipedia/commons/',
+                fallback: 'https://beinecke.library.yale.edu/sites/default/files/images/',
+                backup: 'https://www.voynich.nu/images/'
+            },
+            plants: [
+                'Клещевина', 'Вороний глаз', 'Конопля', 'Валериана', 
+                'Мандрагора', 'Чистотел', 'Фиалка', 'Шафран'
+            ],
+            processes: {
+                'f80v': {
+                    type: 'Многоступенчатая очистка дистиллята',
+                    steps: ['Фильтрация', 'Адсорбция', 'Рефлюкс', 'Охлаждение']
+                },
+                'f83r': {
+                    type: 'Ректификационная колонна',
+                    steps: ['Нагрев', 'Испарение', 'Конденсация', 'Отбор']
+                }
+            }
+        };
+
+        // Загрузка изображений с fallback
+        async function loadImageWithFallback(pageId) {
+            const sources = [
+                `${voynichData.images.primary}${getPagePath(pageId)}`,
+                `${voynichData.images.fallback}${pageId}.jpg`,
+                `${voynichData.images.backup}${pageId}.png`,
+                `https://via.placeholder.com/800x1000?text=Voynich+${pageId}`
+            ];
+
+            const img = document.getElementById('manuscriptImage');
+            const loader = document.getElementById('imageLoader');
+
+            for (let src of sources) {
+                try {
+                    await loadImage(img, src);
+                    loader.style.display = 'none';
+                    return;
+                } catch (e) {
+                    console.log(`Failed to load: ${src}`);
+                    continue;
+                }
+            }
+        }
+
+        function loadImage(img, src) {
+            return new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+                img.src = src;
+            });
+        }
+
+        function getPagePath(pageId) {
+            // Преобразование ID страницы в путь Wikimedia
+            const num = parseInt(pageId.match(/\d+/)[0]);
+            return `thumb/6/65/Voynich_Manuscript_f.${num}r.png/800px-Voynich_Manuscript_f.${num}r.png`;
+        }
+
+        // Анализ текста
+        function analyzeText(text) {
+            const words = text.split(/[.\s]+/).filter(w => w.length > 0);
+            const wordFreq = {};
+            
+            words.forEach(word => {
+                wordFreq[word] = (wordFreq[word] || 0) + 1;
+            });
+
+            return { words, wordFreq };
+        }
+
+        function classifyWord(word, freq) {
+            if (freq < 5) return 'low-freq';
+            if (freq < 50) return 'medium-freq';
+            return 'high-freq';
+        }
+
+        // Отображение текста с подсветкой
+        function displayText(text) {
+            const { words, wordFreq } = analyzeText(text);
+            const container = document.getElementById('evaText');
+            container.innerHTML = '';
+
+            words.forEach(word => {
+                const span = document.createElement('span');
+                span.className = `word ${classifyWord(word, wordFreq[word])}`;
+                span.textContent = word;
+                span.onclick = () => showWordInfo(word, wordFreq[word]);
+                container.appendChild(span);
+            });
+        }
+
+        // Поиск слов
+        function searchWord() {
+            const input = document.getElementById('searchInput');
+            const word = input.value.trim();
+            if (!word) return;
+
+            // Подсветка слова
+            const words = document.querySelectorAll('.word');
+            words.forEach(w => {
+                if (w.textContent === word) {
+                    w.classList.add('highlight');
+                    w.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => w.classList.remove('highlight'), 2000);
+                }
+            });
+        }
+
+        // Фильтрация
+        function filterSection() {
+            const filter = document.getElementById('sectionFilter').value;
+            console.log('Filter by section:', filter);
+            // Реализация фильтрации
+        }
+
+        function filterFrequency() {
+            const filter = document.getElementById('frequencyFilter').value;
+            const words = document.querySelectorAll('.word');
+            
+            words.forEach(word => {
+                if (filter === 'all') {
+                    word.style.display = 'inline-block';
+                } else {
+                    const shouldShow = word.classList.contains(
+                        filter === 'high' ? 'high-freq' : 
+                        filter === 'medium' ? 'medium-freq' : 'low-freq'
+                    );
+                    word.style.display = shouldShow ? 'inline-block' : 'none';
+                }
+            });
+        }
+
+        // Калькулятор частотности
+        function calculateFrequency() {
+            const input = document.getElementById('calcWord');
+            const result = document.getElementById('calcResult');
+            const word = input.value.trim();
+
+            if (!word) {
+                result.style.display = 'block';
+                result.innerHTML = '<div class="error-message">Введите слово EVA</div>';
+                return;
+            }
+
+            // Имитация анализа (в реальности - запрос к базе данных)
+            const freq = Math.floor(Math.random() * 100) + 1;
+            const type = freq < 5 ? 'уникальная сущность' : 
+                        freq < 50 ? 'специфический термин' : 'базовый процесс';
+            
+            result.style.display = 'block';
+            result.innerHTML = `
+                <div class="success-message">
+                    <strong>Слово:</strong> ${word}<br>
+                    <strong>Частота:</strong> ${freq} вхождений<br>
+                    <strong>Тип:</strong> ${type}<br>
+                    <strong>Разделы:</strong> ботаника, банный раздел
+                </div>
+            `;
+        }
+
+        // Переключение вкладок
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Логика переключения контента
+            console.log('Switch to tab:', tabName);
+        }
+
+        // Показ информации о слове
+        function showWordInfo(word, freq) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `
+                <strong>${word}</strong><br>
+                Частота: ${freq}<br>
+                Тип: ${classifyWord(word, freq)}
+            `;
+            tooltip.classList.add('show');
+            
+            setTimeout(() => {
+                tooltip.classList.remove('show');
+            }, 3000);
+        }
+
+        // Инициализация
+        document.addEventListener('mousemove', (e) => {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.left = e.clientX + 10 + 'px';
+            tooltip.style.top = e.clientY + 10 + 'px';
+        });
+
+        // Загрузка страницы
+        window.onload = function() {
+            loadImageWithFallback(voynichData.currentPage);
+            displayText('otaly chockhy otedy yteeody');
+            document.getElementById('translation').innerHTML = `
+                <p><strong>Интерпретация:</strong> Четыре верхних нимфы представляют 4 агрегатных состояния:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li>💧 <strong>otaly</strong> - жидкость (утекающая)</li>
+                    <li>🔥 <strong>chockhy</strong> - газ/пар (нагретый)</li>
+                    <li>🌬️ <strong>otedy</strong> - переходное состояние</li>
+                    <li>🌍 <strong>yteeody</strong> - твёрдое (остывшее)</li>
+                </ul>
+            `;
+            
+            // Заполнение фильтра растений
+            const filter = document.getElementById('plantFilter');
+            voynichData.plants.forEach(plant => {
+                const tag = document.createElement('span');
+                tag.className = 'filter-tag';
+                tag.textContent = plant;
+                tag.onclick = () => filterPlant(plant);
+                filter.appendChild(tag);
+            });
+        };
+
+        function filterPlant(plant) {
+            event.target.classList.toggle('active');
+            console.log('Filter plant:', plant);
+        }
+
+        function showDetails(type) {
+            console.log('Show details:', type);
+        }
+    </script>
+</body>
+</html>
