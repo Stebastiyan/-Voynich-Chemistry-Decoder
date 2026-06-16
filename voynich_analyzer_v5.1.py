@@ -177,17 +177,22 @@ class ProbabilisticMorphologyAnalyzer:
                     changed = True
                     break
         
-        # ШАГ 3: Корни (по длине, регистронезависимо)
+               # ШАГ 3: Корни и маркеры (с защитой от ложной склейки)
         sorted_roots = sorted(self.roots.items(), key=lambda x: len(x[0]), reverse=True)
+        
+        # Переводим в список для итерации, сохраняя маркеры пробелами
         for root, (desc, prob) in sorted_roots:
-            if root.lower() in remainder_lower:
+            root_lower = root.lower()
+            if root_lower in remainder_lower:
                 analysis['elements'].append(('root', root, desc))
                 analysis['confidence'] *= prob
                 analysis['chemical_markers'].append(root)
-                # Удаляем первое вхождение
-                idx = remainder_lower.find(root.lower())
-                remainder = remainder[:idx] + remainder[idx+len(root):]
+                
+                # ВАЖНО: Заменяем на пробел, чтобы не склеить края в новое ложное слово!
+                idx = remainder_lower.find(root_lower)
+                remainder = remainder[:idx] + " " + remainder[idx+len(root):]
                 remainder_lower = remainder.lower()
+
         
         # Добавляем суффиксы
         for _, suf, desc, prob in found_suffixes:
