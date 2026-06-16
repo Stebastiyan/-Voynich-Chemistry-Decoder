@@ -2,593 +2,561 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Сводная таблица расшифровки Войнича</title>
+    <title>Обновлённая концепция: Фармо-ядо-парфюмное производство</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background: #f5f5f5;
-        }
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
-        .info {
-            background: #fff3cd;
-            padding: 15px;
-            margin: 20px 0;
-            border-left: 4px solid #ffc107;
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin: 20px 0;
-        }
-        th {
-            background: #3498db;
-            color: white;
-            padding: 12px;
-            text-align: left;
-            font-weight: bold;
-            border: 1px solid #2980b9;
-        }
-        td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            vertical-align: top;
-        }
-        tr:nth-child(even) { background: #f9f9f9; }
-        tr:hover { background: #e8f4f8; }
-        .category {
-            font-weight: bold;
-            color: #e74c3c;
-        }
-        .process { background: #d5e8d4; }
-        .substance { background: #dae8fc; }
-        .calendar { background: #fff2cc; }
-        .phase { background: #f8cecc; }
-        .instruction {
-            background: #e1d5e7;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1 { border-bottom: 3px solid #2c3e50; padding-bottom: 10px; color: #2c3e50; }
+        h2 { border-bottom: 2px solid #34495e; padding-bottom: 5px; margin-top: 30px; color: #34495e; }
+        h3 { margin-top: 20px; color: #7f8c8d; }
+        table { border-collapse: collapse; margin: 15px 0; width: 100%; }
+        th, td { border: 1px solid #333; padding: 10px; text-align: left; vertical-align: top; }
+        th { background: #34495e; color: white; }
+        .note { background: #e8f6f3; padding: 15px; margin: 15px 0; border-left: 5px solid #16a085; }
+        .warning { background: #fef5e7; padding: 15px; margin: 15px 0; border-left: 5px solid #f39c12; }
+        .highlight { background: #fadbd8; padding: 15px; margin: 15px 0; border-left: 5px solid #e74c3c; }
+        code { background: #ecf0f1; padding: 2px 6px; font-family: 'Courier New', monospace; }
+        .product { font-weight: bold; color: #8e44ad; }
     </style>
 </head>
 <body>
-    <h1>📊 Сводная таблица расшифровки Рукописи Войнича</h1>
-    
-    <div class="instruction">
-        <strong>📋 Инструкция:</strong> Выделите всю таблицу ниже (Ctrl+A), скопируйте (Ctrl+C) и вставьте в Excel (Ctrl+V). 
-        Таблица автоматически сохранит форматирование.
-    </div>
 
-    <div class="info">
-        <strong>🔬 Морфологическая система (по уточнениям):</strong><br>
-        <strong>Приставки:</strong> qo- (спирт/приходящий), ot- (отдающий тепло), op- (опрысканный)<br>
-        <strong>Корни:</strong> edy (временной процесс), sho (трение/перемешивание), ol (масло), d (смола), ar (аромат)<br>
-        <strong>Суффиксы:</strong> -k (кальцинирование), -y (текучий)<br>
-        <strong>Другие:</strong> r (рециркуляция), am (мацерация/аромат)
-    </div>
+<h1>🏭 ФАРМО-ЯДО-ПАРФЮМНОЕ ПРОИЗВОДСТВО XV ВЕКА</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Категория</th>
-                <th>Слово (EVA)</th>
-                <th>Морфологический разбор</th>
-                <th>Перевод / Значение</th>
-                <th>Контекст / Примечание</th>
-                <th>Частота</th>
-                <th>Раздел</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- БАЗОВЫЕ ПРОЦЕССЫ -->
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokain</td>
-                <td>qo (спирт) + k (кальцин.) + ain (осадок)</td>
-                <td>Спиртовой осадок / готовый продукт</td>
-                <td>Выпавший в осадок после обработки щёлочью</td>
-                <td>~1200</td>
-                <td>Банный, Фармацевтика</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokaiin</td>
-                <td>qo (спирт) + k (кальцин.) + aiin (осадок)</td>
-                <td>Спиртовой осадок (вариант)</td>
-                <td>Вариант написания qokain</td>
-                <td>~800</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokar</td>
-                <td>qo (спирт) + k (кальцин.) + ar (основа)</td>
-                <td>Испарился / выпарился</td>
-                <td>Удаление растворителя</td>
-                <td>~600</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokary</td>
-                <td>qo (спирт) + k (кальцин.) + ary (расслоение)</td>
-                <td>Расслоился / перешёл в фазу</td>
-                <td>Фазовое разделение</td>
-                <td>~300</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokaldy</td>
-                <td>qo (спирт) + k (кальцин.) + aldy (кристалл.)</td>
-                <td>Кристаллизовался</td>
-                <td>Образование кристаллов</td>
-                <td>~150</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokeey</td>
-                <td>qo (спирт) + k (кальцин.) + ey (готовое)</td>
-                <td>Готовый выход / отобранный продукт</td>
-                <td>Финальный продукт</td>
-                <td>~500</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokeedy</td>
-                <td>qo (спирт) + k (кальцин.) + edy (процесс)</td>
-                <td>Доведён до готовности</td>
-                <td>Завершение процесса</td>
-                <td>~600</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>qokedy</td>
-                <td>qo (спирт) + k (кальцин.) + edy (процесс)</td>
-                <td>Завершить процесс</td>
-                <td>Инструкция к действию</td>
-                <td>~800</td>
-                <td>Все разделы</td>
-            </tr>
+<div class="highlight">
+<strong>🎯 ОБНОВЛЁННАЯ КОНЦЕПЦИЯ:</strong><br>
+Рукопись Войнича описывает не просто вино-водочный завод, а <strong>комплексное фармацевтическое, ядовитое и парфюмерное производство</strong>.<br><br>
+<strong>Компоненты:</strong> травы, спирт, вода<br>
+<strong>Производные:</strong> смолы, масла, экстракты<br>
+<strong>Продукция:</strong> настои, экстракты, мази, духи, яды, лекарства
+</div>
 
-            <!-- МАСЛЯНЫЕ ПРОЦЕССЫ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>olkeedy</td>
-                <td>ol (масло) + k (кальцин.) + edy (процесс)</td>
-                <td>Алкидный эфир / омыленное масло</td>
-                <td>Масло в процессе ощелачивания (омыление)</td>
-                <td>~120</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>olkain</td>
-                <td>ol (масло) + k (кальцин.) + ain (осадок)</td>
-                <td>Масляный кальцинированный осадок</td>
-                <td>Мыло/алкид, выпавший в осадок</td>
-                <td>~200</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>olchedy</td>
-                <td>ol (масло) + ch (нагрев) + edy (процесс)</td>
-                <td>Масляная обработка с нагревом</td>
-                <td>Термическая обработка масла</td>
-                <td>~150</td>
-                <td>Банный</td>
-            </tr>
+<h2>1. ПРОДУКЦИЯ ПРОИЗВОДСТВА</h2>
 
-            <!-- ТРУБЫ И КАНАЛЫ -->
-            <tr class="substance">
-                <td class="category">Инструмент</td>
-                <td>otal</td>
-                <td>ot (отдающий тепло) + al (основа)</td>
-                <td>Труба / канал отбора</td>
-                <td>Канал перетока нагретого продукта</td>
-                <td>~350</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Инструмент</td>
-                <td>otol</td>
-                <td>ot (отдающий тепло) + ol (масло)</td>
-                <td>Масляная труба / канал для масла</td>
-                <td>Труба для масляной фазы</td>
-                <td>~200</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>otaiin</td>
-                <td>ot (отдающий тепло) + aiin (конденсат)</td>
-                <td>Конденсат из трубы / дистиллят</td>
-                <td>Остывающее, выпадающее в осадок</td>
-                <td>~300</td>
-                <td>Банный</td>
-            </tr>
+<table>
+    <tr>
+        <th>Категория</th>
+        <th>Продукт</th>
+        <th>Описание</th>
+        <th>Ключевые слова</th>
+        <th>Примеры растений</th>
+    </tr>
+    <tr>
+        <td rowspan="3"><strong>💊 ФАРМАЦЕВТИКА</strong></td>
+        <td class="product">Лекарственные настойки</td>
+        <td>Мацерация трав в спирте</td>
+        <td><code>dar</code>, <code>dair</code>, <code>am</code></td>
+        <td>Валериана (f37r), полынь (f26r), вербена (f26v)</td>
+    </tr>
+    <tr>
+        <td class="product">Экстракты</td>
+        <td>Концентрированные вытяжки</td>
+        <td><code>cheol</code>, <code>chol</code>, <code>qokain</code></td>
+        <td>Шафран (f39r), артишок (f50r)</td>
+    </tr>
+    <tr>
+        <td class="product">Бальзамы</td>
+        <td>Смеси экстрактов с маслами</td>
+        <td><code>darol</code>, <code>olkeedy</code></td>
+        <td>Девясил (f53r), чистотел (f9r)</td>
+    </tr>
+    <tr>
+        <td rowspan="2"><strong>☠️ ЯДЫ</strong></td>
+        <td class="product">Ядовитые экстракты</td>
+        <td>Концентрированные яды</td>
+        <td><code>qokain</code>, <code>chckhy</code></td>
+        <td>Вороний глаз (f15v), мандрагора (f51r), белладонна (f1v)</td>
+    </tr>
+    <tr>
+        <td class="product">Противоядия</td>
+        <td>Нейтрализация ядов</td>
+        <td><code>qokeedy</code>, <code>olkeedy</code></td>
+        <td>Комбинации ядовитых и лечебных трав</td>
+    </tr>
+    <tr>
+        <td rowspan="3"><strong>🌸 ПАРФЮМЕРИЯ</strong></td>
+        <td class="product">Эфирные масла</td>
+        <td>Дистилляция цветов</td>
+        <td><code>cheor</code>, <code>ol</code>, <code>olkeedy</code></td>
+        <td>Роза, лаванда, ирис (f2v), кувшинка (f7r)</td>
+    </tr>
+    <tr>
+        <td class="product">Духи</td>
+        <td>Смеси эфирных масел со спиртом</td>
+        <td><code>qo</code> + <code>cheor</code> + <code>dar</code></td>
+        <td>Композиции из нескольких цветов</td>
+    </tr>
+    <tr>
+        <td class="product">Ароматические воды</td>
+        <td>Гидролаты (цветочные воды)</td>
+        <td><code>cheol</code>, <code>saiin</code></td>
+        <td>Розовая вода, лавандовая вода</td>
+    </tr>
+    <tr>
+        <td rowspan="2"><strong>🧴 КОСМЕТИКА</strong></td>
+        <td class="product">Мази</td>
+        <td>Эмульсии масел с экстрактами</td>
+        <td><code>sheol</code>, <code>sheod</code>, <code>ol</code></td>
+        <td>Мазь из календулы (f96r), ромашки</td>
+    </tr>
+    <tr>
+        <td class="product">Кремы</td>
+        <td>Эмульсии вода-масло</td>
+        <td><code>sheo</code>, <code>8am</code></td>
+        <td>Увлажняющие кремы с травами</td>
+    </tr>
+    <tr>
+        <td rowspan="2"><strong>🎨 ТЕХНИЧЕСКАЯ ПРОДУКЦИЯ</strong></td>
+        <td class="product">Алкидные лаки</td>
+        <td>Омыление масел</td>
+        <td><code>olkeedy</code>, <code>qokain</code></td>
+        <td>Льняное масло + щёлочь</td>
+    </tr>
+    <tr>
+        <td class="product">Красители</td>
+        <td>Пигменты из растений</td>
+        <td><code>tedo</code>, <code>cheor</code></td>
+        <td>Шафран (жёлтый), вайда (синий)</td>
+    </tr>
+</table>
 
-            <!-- СЫРЬЁ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>daiin</td>
-                <td>d (смола) + aiin (вещество)</td>
-                <td>Сырьё / растительная масса</td>
-                <td>Исходный материал</td>
-                <td>~800</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>dair</td>
-                <td>d (смола) + ar (аромат)</td>
-                <td>Ароматная смола / корень</td>
-                <td>Активный агент, корневище</td>
-                <td>~400</td>
-                <td>Все разделы</td>
-            </tr>
+<h2>2. КОМПОНЕНТЫ ПРОИЗВОДСТВА</h2>
 
-            <!-- НАГРЕВ -->
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>chol</td>
-                <td>ch (нагрев) + ol (масло)</td>
-                <td>Нагретое масло</td>
-                <td>Базовый процесс нагрева</td>
-                <td>~450</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>8chol</td>
-                <td>8 (жидкость) + chol (нагрев)</td>
-                <td>Нагреть жидкость до кипения</td>
-                <td>Кипячение</td>
-                <td>~220</td>
-                <td>Банный</td>
-            </tr>
+<h3>2.1. Базовые компоненты</h3>
 
-            <!-- СЛИВ И ФИЛЬТРАЦИЯ -->
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>shedy</td>
-                <td>sho (перемешивание) + edy (процесс)</td>
-                <td>Слить / отделить</td>
-                <td>Базовая операция слива</td>
-                <td>~600</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>chedy</td>
-                <td>ch (нагрев) + edy (процесс)</td>
-                <td>Добавить / внести</td>
-                <td>Внесение компонента</td>
-                <td>~500</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>pchedy</td>
-                <td>p (подъём) + ch (нагрев) + edy (процесс)</td>
-                <td>Фильтрация с нагревом</td>
-                <td>Пропускание через фильтр</td>
-                <td>~200</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>fchedy</td>
-                <td>f (фильтр) + ch (нагрев) + edy (процесс)</td>
-                <td>Фильтрация / очистка</td>
-                <td>Очистка через фильтр</td>
-                <td>~150</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>lchedy</td>
-                <td>l (холод) + ch (нагрев) + edy (процесс)</td>
-                <td>Охлаждение / конденсация</td>
-                <td>Охлаждение после нагрева</td>
-                <td>~800</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>rchedy</td>
-                <td>r (рециркуляция) + ch (нагрев) + edy (процесс)</td>
-                <td>Возврат / рефлюкс</td>
-                <td>Возврат флегмы в куб</td>
-                <td>~400</td>
-                <td>Банный</td>
-            </tr>
+<table>
+    <tr>
+        <th>Компонент</th>
+        <th>EVA-термин</th>
+        <th>Описание</th>
+        <th>Применение</th>
+    </tr>
+    <tr>
+        <td><strong>Травы</strong></td>
+        <td><code>ch</code>, <code>cheor</code>, <code>daiin</code></td>
+        <td>Растительное сырьё (листья, цветы, корни)</td>
+        <td>Основа всех продуктов</td>
+    </tr>
+    <tr>
+        <td><strong>Спирт</strong></td>
+        <td><code>qo-</code>, <code>ol</code></td>
+        <td>Дистиллят, растворитель</td>
+        <td>Экстракция, растворение, консервация</td>
+    </tr>
+    <tr>
+        <td><strong>Вода</strong></td>
+        <td><code>8</code>, <code>saiin</code></td>
+        <td>Чистая вода, дистиллят</td>
+        <td>Растворитель, разбавитель</td>
+    </tr>
+    <tr>
+        <td><strong>Щёлочь</strong></td>
+        <td><code>k</code></td>
+        <td>Поташ, зола, известь</td>
+        <td>Омыление, нейтрализация</td>
+    </tr>
+</table>
 
-            <!-- ПОТОКИ -->
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>roly</td>
-                <td>r (рециркуляция) + ol (масло) + y (текучий)</td>
-                <td>Смешивание в поток / рефлюкс</td>
-                <td>Рециркуляция масляного потока</td>
-                <td>~120</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="process">
-                <td class="category">Процесс</td>
-                <td>doly</td>
-                <td>d (смола) + ol (масло) + y (текучий)</td>
-                <td>Доливание в поток</td>
-                <td>Добавление в движущуюся струю</td>
-                <td>~100</td>
-                <td>Банный</td>
-            </tr>
+<h3>2.2. Производные продукты</h3>
 
-            <!-- СОСТОЯНИЯ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>cthy</td>
-                <td>ct (осадок) + hy (горячий)</td>
-                <td>Горячий студень / конденсат</td>
-                <td>Промежуточное состояние</td>
-                <td>~500</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>cthod</td>
-                <td>ct (осадок) + hod (остывший)</td>
-                <td>Остывший осадок / кубовый остаток</td>
-                <td>Финальный отход</td>
-                <td>~250</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>saiin</td>
-                <td>s (чистый) + aiin (вещество)</td>
-                <td>Чистая вода / дистиллят</td>
-                <td>Очищенная вода</td>
-                <td>~350</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>sol</td>
-                <td>sol (соль/раствор)</td>
-                <td>Соль / раствор</td>
-                <td>Минеральный компонент</td>
-                <td>~400</td>
-                <td>Все разделы</td>
-            </tr>
+<table>
+    <tr>
+        <th>Производная</th>
+        <th>EVA-термин</th>
+        <th>Описание</th>
+        <th>Использование</th>
+    </tr>
+    <tr>
+        <td><strong>Смолы</strong></td>
+        <td><code>d-</code>, <code>daiin</code>, <code>dol</code></td>
+        <td>Тяжёлые фракции, густые вещества</td>
+        <td>Мази, лаки, фиксаторы духов</td>
+    </tr>
+    <tr>
+        <td><strong>Масла</strong></td>
+        <td><code>ol</code>, <code>olkeedy</code></td>
+        <td>Растительные и эфирные масла</td>
+        <td>Мази, духи, лаки, мыло</td>
+    </tr>
+    <tr>
+        <td><strong>Экстракты</strong></td>
+        <td><code>cheol</code>, <code>chol</code>, <code>qokain</code></td>
+        <td>Концентрированные вытяжки</td>
+        <td>Лекарства, настойки, бальзамы</td>
+    </tr>
+    <tr>
+        <td><strong>Эфирные масла</strong></td>
+        <td><code>cheor</code> + <code>ol</code></td>
+        <td>Летучие ароматические масла</td>
+        <td>Духи, ароматерапия</td>
+    </tr>
+</table>
 
-            <!-- НАСТОИ И АРОМАТЫ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>dar</td>
-                <td>d (смола) + ar (аромат)</td>
-                <td>Настой / обогащение настоями</td>
-                <td>Мацерация трав</td>
-                <td>~300</td>
-                <td>Фармацевтика</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>dary</td>
-                <td>d (смола) + ar (аромат) + y (текучий)</td>
-                <td>Процесс настаивания</td>
-                <td>Жидкий настой</td>
-                <td>~150</td>
-                <td>Фармацевтика</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>dair</td>
-                <td>d (смола) + ar (аромат)</td>
-                <td>Сырьё для настоя</td>
-                <td>Ароматическое сырьё</td>
-                <td>~200</td>
-                <td>Фармацевтика</td>
-            </tr>
+<h2>3. ПРИМЕРЫ ИЗ ТЕКСТА</h2>
 
-            <!-- КАЛЕНДАРЬ -->
-            <tr class="calendar">
-                <td class="category">Календарь</td>
-                <td>otaldy</td>
-                <td>ot (отдающий тепло) + al (основа) + dy (мера)</td>
-                <td>Холод / замерзание (январь)</td>
-                <td>Зимний покой</td>
-                <td>~12</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="calendar">
-                <td class="category">Календарь</td>
-                <td>otoky</td>
-                <td>ot (отдающий тепло) + oky (процесс)</td>
-                <td>Оттепель (февраль)</td>
-                <td>Начало сокодвижения</td>
-                <td>~10</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="calendar">
-                <td class="category">Календарь</td>
-                <td>ykees.ary</td>
-                <td>ykees (изъездить) + ary (поле)</td>
-                <td>Вспаханное поле (апрель)</td>
-                <td>Пахота</td>
-                <td>~10</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="calendar">
-                <td class="category">Календарь</td>
-                <td>dalary</td>
-                <td>dal (отдых) + ary (поле) + y (текучий)</td>
-                <td>Отдыхающее поле (декабрь)</td>
-                <td>Поле под паром</td>
-                <td>~15</td>
-                <td>Астрономия</td>
-            </tr>
+<h3>3.1. Производство настоек (f85r1.11)</h3>
 
-            <!-- 4 СТИХИИ -->
-            <tr class="phase">
-                <td class="category">Фаза</td>
-                <td>otaly</td>
-                <td>ot (отдающий тепло) + al (основа) + y (текучий)</td>
-                <td>Вода / жидкость (утекающая)</td>
-                <td>11:15 на f73r</td>
-                <td>~50</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="phase">
-                <td class="category">Фаза</td>
-                <td>chockhy</td>
-                <td>ch (нагрев) + ockhy (горячий)</td>
-                <td>Огонь / газ (нагретый пар)</td>
-                <td>11:45 на f73r</td>
-                <td>~80</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="phase">
-                <td class="category">Фаза</td>
-                <td>otedy</td>
-                <td>ot (отдающий тепло) + edy (процесс)</td>
-                <td>Воздух / пар (улетучивается)</td>
-                <td>00:30 на f73r</td>
-                <td>~60</td>
-                <td>Астрономия</td>
-            </tr>
-            <tr class="phase">
-                <td class="category">Фаза</td>
-                <td>yteeody</td>
-                <td>ytee (остывший) + ody (состояние)</td>
-                <td>Земля / твёрдое (остывшее)</td>
-                <td>01:00 на f73r</td>
-                <td>~40</td>
-                <td>Астрономия</td>
-            </tr>
+<div class="note">
+<code>pdar.ol.shdair.qopcheedy.dal.chdal.chor.shefshoro.raiin.dolor.aiin.opakam</code><br><br>
+<strong>Перевод:</strong> "Настой (<code>dar</code>) + масло (<code>ol</code>) + сырьё (<code>shdair</code>) → подъём (<code>qopcheedy</code>) → отстой (<code>dal</code>) → нагрев (<code>chdal</code>) → рециркуляция (<code>raiin</code>) → готовый продукт (<code>opakam</code>)"<br><br>
+<strong>Продукт:</strong> Лекарственная настойка на масляной основе
+</div>
 
-            <!-- МУТНЫЕ/МЫЛЬНЫЕ/СМОЛЯНИСТЫЕ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>sheo</td>
-                <td>sheo (мутный)</td>
-                <td>Мутная жидкость</td>
-                <td>Промежуточное состояние</td>
-                <td>~200</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>sheol</td>
-                <td>sheo (мутный) + ol (масло)</td>
-                <td>Мыльный раствор</td>
-                <td>Омылённая мутная жидкость</td>
-                <td>~150</td>
-                <td>Банный</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>sheod</td>
-                <td>sheo (мутный) + d (смола)</td>
-                <td>Смолянистая мутная жидкость</td>
-                <td>Смола в процессе</td>
-                <td>~100</td>
-                <td>Банный</td>
-            </tr>
+<h3>3.2. Производство эфирных масел (f47v.1)</h3>
 
-            <!-- АРОМАТЫ -->
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>ar</td>
-                <td>ar (аромат)</td>
-                <td>Ароматная основа</td>
-                <td>Базовый ароматический компонент</td>
-                <td>~600</td>
-                <td>Все разделы</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Вещество</td>
-                <td>am</td>
-                <td>am (мацерация/аромат)</td>
-                <td>Аромат при мацерации</td>
-                <td>Процесс настаивания</td>
-                <td>~350</td>
-                <td>Фармацевтика</td>
-            </tr>
+<div class="note">
+<code>psheot.cheor.cholsho.chopchy.sal</code><br><br>
+<strong>Перевод:</strong> "Подъём (<code>psheot</code>) цветочного сырья (<code>cheor</code>) → нагрев с перемешиванием (<code>cholsho</code>) → цветочная фильтрация (<code>chopchy</code>) → раствор (<code>sal</code>)"<br><br>
+<strong>Продукт:</strong> Эфирное масло из цветов
+</div>
 
-            <!-- РАСТЕНИЯ (ПРИМЕРЫ) -->
-            <tr class="substance">
-                <td class="category">Растение</td>
-                <td>kooiin</td>
-                <td>Уникальная сущность</td>
-                <td>Ирис / Водяная лилия</td>
-                <td>f2v - парфюмерное растение</td>
-                <td>2</td>
-                <td>Ботаника</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Растение</td>
-                <td>koary,sar</td>
-                <td>Уникальная сущность</td>
-                <td>Клещевина (Ricinus)</td>
-                <td>f6v - рицин, касторовое масло</td>
-                <td>1</td>
-                <td>Ботаника</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Растение</td>
-                <td>poror</td>
-                <td>Уникальная сущность</td>
-                <td>Вороний глаз</td>
-                <td>f15v - ядовитое растение</td>
-                <td>1</td>
-                <td>Ботаника</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Растение</td>
-                <td>pocheody</td>
-                <td>Уникальная сущность</td>
-                <td>Конопля</td>
-                <td>f16r - каннабиноиды</td>
-                <td>1</td>
-                <td>Ботаника</td>
-            </tr>
-            <tr class="substance">
-                <td class="category">Растение</td>
-                <td>tsholdchy</td>
-                <td>Уникальная сущность</td>
-                <td>Мандрагора</td>
-                <td>f51r - сильнодействующее</td>
-                <td>1</td>
-                <td>Ботаника</td>
-            </tr>
-        </tbody>
-    </table>
+<h3>3.3. Производство мазей (f51r.15)</h3>
 
-    <div class="info">
-        <strong>📊 Статистика:</strong><br>
-        Всего слов в таблице: <strong>55</strong><br>
-        Из них: процессов - 28, веществ - 20, инструментов - 3, календарных маркеров - 4, фаз - 4, растений - 5<br>
-        Общая частота всех слов: <strong>~15,000+ вхождений</strong>
-    </div>
+<div class="note">
+<code>qokol.cheor.ckhal.s.or.aldy</code><br><br>
+<strong>Перевод:</strong> "Готовая основа (<code>qokol</code>) + цветочное сырьё (<code>cheor</code>) + обработка (<code>ckhal</code>) + раствор (<code>s</code>) + активная фаза (<code>or</code>) + кристаллизация (<code>aldy</code>)"<br><br>
+<strong>Продукт:</strong> Мазь с цветочным экстрактом
+</div>
 
-    <div class="instruction">
-        <strong>💡 Как использовать:</strong><br>
-        1. Выделите таблицу выше (кликните внутри таблицы, затем Ctrl+A)<br>
-        2. Скопируйте (Ctrl+C)<br>
-        3. Откройте Excel и вставьте (Ctrl+V)<br>
-        4. Таблица сохранит форматирование и цвета категорий
-    </div>
+<h3>3.4. Производство духов (гипотетическая реконструкция)</h3>
+
+<div class="warning">
+<strong>Состав:</strong><br>
+- Спирт-основа: <code>qo-</code><br>
+- Эфирные масла: <code>cheor</code> + <code>ol</code><br>
+- Настой трав: <code>dar</code><br>
+- Фиксатор (смола): <code>d-</code><br><br>
+
+<strong>Процесс:</strong><br>
+1. Смешивание спирта с эфирными маслами<br>
+2. Добавление настоя трав<br>
+3. Добавление смолы-фиксатора<br>
+4. Отстаивание (<code>qokeedy</code>)<br>
+5. Фильтрация (<code>pchedy</code>)<br>
+6. Фасовка (<code>qokain</code>)
+</div>
+
+<h3>3.5. Производство ядов (f15v - вороний глаз)</h3>
+
+<div class="highlight">
+<code>poror.orshy.choiin.dtchan.opchordy</code><br><br>
+<strong>Перевод:</strong> "Вороний глаз (<code>poror</code>) → обработка (<code>orshy</code>) → нагрев (<code>choiin</code>) → конденсация (<code>dtchan</code>) → готовый яд (<code>opchordy</code>)"<br><br>
+<strong>Продукт:</strong> Концентрированный яд из вороньего глаза<br>
+<strong>Применение:</strong> Медицина (в малых дозах), отравление стрел
+</div>
+
+<h2>4. ТЕХНОЛОГИЧЕСКИЕ ЦЕПОЧКИ</h2>
+
+<h3>4.1. Производство лекарственной настойки</h3>
+
+<table>
+    <tr>
+        <th>Этап</th>
+        <th>Процесс</th>
+        <th>Ключевые слова</th>
+        <th>Оборудование</th>
+    </tr>
+    <tr>
+        <td>1. Сбор сырья</td>
+        <td>Сбор трав на стадии <code>cphol</code></td>
+        <td><code>cheor</code>, <code>daiin</code></td>
+        <td>—</td>
+    </tr>
+    <tr>
+        <td>2. Подготовка</td>
+        <td>Сушка, измельчение</td>
+        <td><code>okcho</code>, <code>shokchy</code></td>
+        <td>—</td>
+    </tr>
+    <tr>
+        <td>3. Мацерация</td>
+        <td>Замачивание в спирте</td>
+        <td><code>chy</code>, <code>dar</code>, <code>am</code></td>
+        <td>Башня 1</td>
+    </tr>
+    <tr>
+        <td>4. Нагрев</td>
+        <td>Доведение до кипения</td>
+        <td><code>chol</code>, <code>8chol</code></td>
+        <td>Башня 2</td>
+    </tr>
+    <tr>
+        <td>5. Фильтрация</td>
+        <td>Отделение жидкости от жмыха</td>
+        <td><code>pchedy</code>, <code>shedy</code></td>
+        <td>Башня 3</td>
+    </tr>
+    <tr>
+        <td>6. Обогащение</td>
+        <td>Добавление других трав</td>
+        <td><code>dar</code>, <code>dair</code></td>
+        <td>Башня 4</td>
+    </tr>
+    <tr>
+        <td>7. Отстаивание</td>
+        <td>Созревание настойки</td>
+        <td><code>qokeedy</code></td>
+        <td>Башня 5</td>
+    </tr>
+    <tr>
+        <td>8. Фасовка</td>
+        <td>Розлив в банки</td>
+        <td><code>qokain</code>, <code>qokeey</code></td>
+        <td>—</td>
+    </tr>
+</table>
+
+<h3>4.2. Производство эфирного масла</h3>
+
+<table>
+    <tr>
+        <th>Этап</th>
+        <th>Процесс</th>
+        <th>Ключевые слова</th>
+        <th>Оборудование</th>
+    </tr>
+    <tr>
+        <td>1. Сбор цветов</td>
+        <td>Сбор на стадии <code>cheor</code></td>
+        <td><code>cheor</code></td>
+        <td>—</td>
+    </tr>
+    <tr>
+        <td>2. Загрузка</td>
+        <td>Загрузка в перегонный куб</td>
+        <td><code>daiin</code></td>
+        <td>Куб</td>
+    </tr>
+    <tr>
+        <td>3. Дистилляция</td>
+        <td>Перегонка с паром</td>
+        <td><code>chol</code>, <code>qo-</code></td>
+        <td>Куб + колонна</td>
+    </tr>
+    <tr>
+        <td>4. Конденсация</td>
+        <td>Охлаждение паров</td>
+        <td><code>shedy</code>, <code>lchedy</code></td>
+        <td>Змеевик</td>
+    </tr>
+    <tr>
+        <td>5. Разделение</td>
+        <td>Отделение масла от воды</td>
+        <td><code>qokary</code></td>
+        <td>Флорентийский сосуд</td>
+    </tr>
+    <tr>
+        <td>6. Очистка</td>
+        <td>Фильтрация масла</td>
+        <td><code>pchedy</code></td>
+        <td>Фильтр</td>
+    </tr>
+    <tr>
+        <td>7. Фасовка</td>
+        <td>Розлив в тёмные бутылки</td>
+        <td><code>qokain</code></td>
+        <td>—</td>
+    </tr>
+</table>
+
+<h3>4.3. Производство мази</h3>
+
+<table>
+    <tr>
+        <th>Этап</th>
+        <th>Процесс</th>
+        <th>Ключевые слова</th>
+        <th>Оборудование</th>
+    </tr>
+    <tr>
+        <td>1. Подготовка масла</td>
+        <td>Нагрев базового масла</td>
+        <td><code>ol</code>, <code>chol</code></td>
+        <td>Реактор</td>
+    </tr>
+    <tr>
+        <td>2. Добавление экстракта</td>
+        <td>Внесение цветочного экстракта</td>
+        <td><code>cheol</code>, <code>chedy</code></td>
+        <td>Реактор</td>
+    </tr>
+    <tr>
+        <td>3. Эмульгирование</td>
+        <td>Смешивание с водой</td>
+        <td><code>sheo</code>, <code>8am</code></td>
+        <td>Реактор</td>
+    </tr>
+    <tr>
+        <td>4. Охлаждение</td>
+        <td>Остывание мази</td>
+        <td><code>lchedy</code></td>
+        <td>—</td>
+    </tr>
+    <tr>
+        <td>5. Фасовка</td>
+        <td>Розлив в банки</td>
+        <td><code>qokain</code></td>
+        <td>—</td>
+    </tr>
+</table>
+
+<h2>5. РАСТЕНИЯ ПО КАТЕГОРИЯМ ПРОДУКЦИИ</h2>
+
+<h3>5.1. Лекарственные растения</h3>
+
+<table>
+    <tr>
+        <th>Растение</th>
+        <th>Фолио</th>
+        <th>Применение</th>
+        <th>Активные вещества</th>
+    </tr>
+    <tr><td>Валериана</td><td>f37r</td><td>Успокоительное</td><td>Валериановая кислота</td></tr>
+    <tr><td>Полынь</td><td>f26r</td><td>Желчегонное, глистогонное</td><td>Туйон</td></tr>
+    <tr><td>Вербена</td><td>f26v</td><td>Противовоспалительное</td><td>Вербенин</td></tr>
+    <tr><td>Чистотел</td><td>f9r</td><td>Кожные заболевания</td><td>Хелидонин</td></tr>
+    <tr><td>Девясил</td><td>f53r</td><td>Отхаркивающее</td><td>Алантолактон</td></tr>
+    <tr><td>Календула</td><td>f96r</td><td>Заживляющее</td><td>Фардиол</td></tr>
+</table>
+
+<h3>5.2. Ядовитые растения</h3>
+
+<table>
+    <tr>
+        <th>Растение</th>
+        <th>Фолио</th>
+        <th>Яд</th>
+        <th>Применение</th>
+    </tr>
+    <tr><td>Белладонна</td><td>f1v</td><td>Атропин</td><td>Расширение зрачков, обезболивание</td></tr>
+    <tr><td>Вороний глаз</td><td>f15v</td><td>Паристифин</td><td>Сердечные препараты (в малых дозах)</td></tr>
+    <tr><td>Мандрагора</td><td>f51r</td><td>Скополамин</td><td>Анестезия, галлюциноген</td></tr>
+    <tr><td>Болиголов</td><td>—</td><td>Конин</td><td>Успокоительное (в малых дозах)</td></tr>
+</table>
+
+<h3>5.3. Парфюмерные растения</h3>
+
+<table>
+    <tr>
+        <th>Растение</th>
+        <th>Фолио</th>
+        <th>Эфирное масло</th>
+        <th>Ноты</th>
+    </tr>
+    <tr><td>Ирис / Водяная лилия</td><td>f2v</td><td>Ирисовое масло</td><td>Верхние</td></tr>
+    <tr><td>Кувшинка белая</td><td>f7r</td><td>Масло кувшинки</td><td>Средние</td></tr>
+    <tr><td>Шафран</td><td>f39r</td><td>Шафрановое масло</td><td>Средние, база</td></tr>
+    <tr><td>Роза</td><td>—</td><td>Розовое масло</td><td>Верхние, средние</td></tr>
+    <tr><td>Лаванда</td><td>—</td><td>Лавандовое масло</td><td>Верхние</td></tr>
+</table>
+
+<h3>5.4. Технические растения</h3>
+
+<table>
+    <tr>
+        <th>Растение</th>
+        <th>Фолио</th>
+        <th>Продукт</th>
+        <th>Применение</th>
+    </tr>
+    <tr><td>Клещевина</td><td>f6v</td><td>Касторовое масло</td><td>Смазка, лекарство</td></tr>
+    <tr><td>Конопля</td><td>f16r</td><td>Конопляное масло</td><td>Лак, краска</td></tr>
+    <tr><td>Льняное семя</td><td>—</td><td>Льняное масло</td><td>Основа для лаков</td></tr>
+    <tr><td>Дуб</td><td>f35v</td><td>Дубовая кора</td><td>Дубление, краситель</td></tr>
+</table>
+
+<h2>6. ОБОРУДОВАНИЕ ПРОИЗВОДСТВА</h2>
+
+<table>
+    <tr>
+        <th>Оборудование</th>
+        <th>Описание</th>
+        <th>Иллюстрация</th>
+        <th>Назначение</th>
+    </tr>
+    <tr>
+        <td><strong>Перегонный куб</strong></td>
+        <td>Ёмкость для дистилляции</td>
+        <td>f75r (бассейны с нимфами)</td>
+        <td>Получение спирта, эфирных масел</td>
+    </tr>
+    <tr>
+        <td><strong>Ректификационная колонна</strong></td>
+        <td>Насадочная колонна с дефлегматором</td>
+        <td>f80v, f83r (трубы)</td>
+        <td>Очистка спирта, разделение фракций</td>
+    </tr>
+    <tr>
+        <td><strong>9 башен</strong></td>
+        <td>Многоступенчатая система очистки</td>
+        <td>f86v (водонапорные башни)</td>
+        <td>Полный цикл производства</td>
+    </tr>
+    <tr>
+        <td><strong>Змеевик</strong></td>
+        <td>Холодильник для конденсации</td>
+        <td>f80v (трубы)</td>
+        <td>Конденсация паров</td>
+    </tr>
+    <tr>
+        <td><strong>Флорентийский сосуд</strong></td>
+        <td>Сосуд для разделения масла и воды</td>
+        <td>—</td>
+        <td>Отделение эфирного масла</td>
+    </tr>
+    <tr>
+        <td><strong>Ступка</strong></td>
+        <td>Ёмкость для измельчения</td>
+        <td>—</td>
+        <td>Подготовка сырья</td>
+    </tr>
+    <tr>
+        <td><strong>Банки</strong></td>
+        <td>Ёмкости для хранения</td>
+        <td>f99r-f102r</td>
+        <td>Хранение готовой продукции</td>
+    </tr>
+</table>
+
+<h2>7. КЛЮЧЕВЫЕ ВЫВОДЫ</h2>
+
+<div class="highlight">
+<ol>
+    <li><strong>Комплексное производство:</strong> Рукопись описывает не один продукт, а целую гамму продукции — от лекарств до духов и ядов.</li>
+    <li><strong>Универсальное оборудование:</strong> 9 башен используются для производства разных продуктов путём изменения сырья и технологических параметров.</li>
+    <li><strong>Три базовых компонента:</strong> Травы, спирт, вода — основа всего производства.</li>
+    <li><strong>Четыре типа производных:</strong> Смолы, масла, экстракты, эфирные масла — промежуточные продукты.</li>
+    <li><strong>Пять категорий продукции:</strong> Фармацевтика, яды, парфюмерия, косметика, техническая продукция.</li>
+    <li><strong>Сезонность:</strong> Сбор сырья привязан к фенологическому циклу растений (f68r1).</li>
+    <li><strong>Многоступенчатость:</strong> Каждый продукт проходит через несколько стадий обработки в разных башнях.</li>
+</ol>
+</div>
+
+<h2>8. ЗАКЛЮЧЕНИЕ</h2>
+
+<p>Рукопись Войнича представляет собой <strong>универсальное технологическое пособие</strong> для комплексного фармацевтического, ядовитого и парфюмерного производства XV века. Это не просто "рецепты" — это полноценная <strong>промышленная технология</strong> с:</p>
+
+<ul>
+    <li>Каталогом сырья (ботаника)</li>
+    <li>Календарём сбора (астрономия)</li>
+    <li>Описанием химических процессов (банный раздел)</li>
+    <li>Схемой оборудования (9 башен)</li>
+    <li>Рецептами и технологическими циклами (фармацевтика)</li>
+</ul>
+
+<p>Производство включало:</p>
+<ul>
+    <li>💊 <strong>Лекарственные настойки</strong> из валерианы, полыни, вербены</li>
+    <li>☠️ <strong>Яды</strong> из белладонны, вороньего глаза, мандрагоры</li>
+    <li>🌸 <strong>Эфирные масла</strong> из ириса, кувшинки, шафрана</li>
+    <li>🧴 <strong>Мази</strong> на основе масел с растительными экстрактами</li>
+    <li>🎨 <strong>Алкидные лаки</strong> из конопляного и льняного масла</li>
+    <li>🌺 <strong>Духи</strong> из композиции эфирных масел</li>
+</ul>
+
+<div class="note">
+<strong>Дата составления:</strong> Июнь 2026<br>
+<strong>Основа:</strong> Транслитерация ZL3b-n.txt, морфологический анализ, частотная статистика
+</div>
+
 </body>
 </html>
