@@ -2,850 +2,593 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voynich Tech Analyzer - Технологический анализ рукописи</title>
+    <title>Сводная таблица расшифровки Войнича</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #2c3e50;
-            --secondary: #34495e;
-            --accent: #e67e22;
-            --light: #ecf0f1;
-            --dark: #1a252f;
-            --success: #27ae60;
-            --warning: #f39c12;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        h1 {
+            color: #2c3e50;
+            text-align: center;
         }
-
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            animation: slideDown 0.5s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 2em;
-            font-weight: bold;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box input {
-            padding: 10px 40px 10px 15px;
-            border: 2px solid var(--light);
-            border-radius: 25px;
-            width: 300px;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .search-box input:focus {
-            outline: none;
-            border-color: var(--accent);
-            width: 350px;
-        }
-
-        .search-btn {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--accent);
-            border: none;
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .search-btn:hover {
-            background: var(--primary);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .filter-select {
-            padding: 10px 20px;
-            border: 2px solid var(--light);
-            border-radius: 25px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-select:hover {
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .main-grid {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .sidebar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            height: fit-content;
-            position: sticky;
-            top: 100px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .section-title {
-            font-size: 1.3em;
-            margin-bottom: 15px;
-            color: var(--primary);
-            border-bottom: 3px solid var(--accent);
-            padding-bottom: 10px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
+        .info {
+            background: #fff3cd;
             padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
         }
-
-        .stat-card:hover {
-            transform: translateY(-5px) rotate(2deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: bold;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.8em;
-            opacity: 0.9;
-        }
-
-        .content-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .page-viewer {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            animation: fadeIn 0.5s ease;
-        }
-
-        .image-container {
-            position: relative;
+        table {
             width: 100%;
-            min-height: 600px;
-            background: var(--light);
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px 0;
         }
-
-        .manuscript-image {
-            max-width: 100%;
-            max-height: 800px;
-            object-fit: contain;
-            transition: transform 0.3s;
-        }
-
-        .manuscript-image:hover {
-            transform: scale(1.02);
-        }
-
-        .image-loader {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--light);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .text-analysis {
-            margin-top: 20px;
-        }
-
-        .eva-text {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.8;
-            border-left: 4px solid var(--accent);
-            margin-bottom: 15px;
-        }
-
-        .word {
-            display: inline-block;
-            padding: 2px 6px;
-            margin: 2px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
-        }
-
-        .word:hover {
-            background: var(--accent);
+        th {
+            background: #3498db;
             color: white;
-            transform: scale(1.1);
-        }
-
-        .word.high-freq { background: #d5f5e3; }
-        .word.medium-freq { background: #fef9e7; }
-        .word.low-freq { background: #fadbd8; }
-        .word.plant-name { background: #d6eaf8; font-weight: bold; }
-
-        .translation-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .translation-title {
+            padding: 12px;
+            text-align: left;
             font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.2em;
+            border: 1px solid #2980b9;
         }
-
-        .process-diagram {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .flow-chart {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            margin-top: 15px;
-        }
-
-        .flow-node {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            text-align: center;
-            min-width: 120px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .flow-node:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .flow-arrow {
-            font-size: 24px;
-            color: var(--accent);
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(10px); }
-        }
-
-        .frequency-calculator {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .calc-input {
-            width: 100%;
+        td {
             padding: 10px;
-            border: 2px solid var(--light);
-            border-radius: 8px;
-            margin-bottom: 10px;
-            font-family: 'Courier New', monospace;
+            border: 1px solid #ddd;
+            vertical-align: top;
         }
-
-        .calc-button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 8px;
-            cursor: pointer;
+        tr:nth-child(even) { background: #f9f9f9; }
+        tr:hover { background: #e8f4f8; }
+        .category {
             font-weight: bold;
-            transition: all 0.3s;
+            color: #e74c3c;
         }
-
-        .calc-button:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .calc-result {
-            margin-top: 15px;
+        .process { background: #d5e8d4; }
+        .substance { background: #dae8fc; }
+        .calendar { background: #fff2cc; }
+        .phase { background: #f8cecc; }
+        .instruction {
+            background: #e1d5e7;
             padding: 15px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: none;
-        }
-
-        .plant-filter {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .filter-tag {
-            background: var(--light);
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-tag:hover,
-        .filter-tag.active {
-            background: var(--accent);
-            color: white;
-        }
-
-        .section-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--light);
-        }
-
-        .tab {
-            padding: 10px 20px;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-
-        .tab:hover {
-            color: var(--accent);
-        }
-
-        .tab.active {
-            color: var(--accent);
-            border-bottom-color: var(--accent);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s;
-        }
-
-        @media (max-width: 968px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .sidebar {
-                position: static;
-            }
-            
-            .search-box input {
-                width: 200px;
-            }
-            
-            .search-box input:focus {
-                width: 220px;
-            }
-        }
-
-        .tooltip {
-            position: fixed;
-            background: var(--dark);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            z-index: 10000;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-            max-width: 300px;
-        }
-
-        .tooltip.show {
-            opacity: 1;
-        }
-
-        .highlight {
-            animation: highlight 2s ease;
-        }
-
-        @keyframes highlight {
-            0%, 100% { background: transparent; }
-            50% { background: yellow; }
-        }
-
-        .error-message {
-            background: #fadbd8;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #dc3545;
-            margin: 10px 0;
-        }
-
-        .success-message {
-            background: #d5f5e3;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #28a745;
-            margin: 10px 0;
+            margin: 20px 0;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">🔬 Voynich Tech Analyzer</div>
-            <div class="controls">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Поиск по словам EVA...">
-                    <button class="search-btn" onclick="searchWord()">🔍</button>
-                </div>
-                <select class="filter-select" id="sectionFilter" onchange="filterSection()">
-                    <option value="all">Все разделы</option>
-                    <option value="herbal">🌿 Ботаника</option>
-                    <option value="astronomical">🌙 Астрономия</option>
-                    <option value="biological">🧪 Банный раздел</option>
-                    <option value="pharmaceutical">💊 Фармацевтика</option>
-                </select>
-                <select class="filter-select" id="frequencyFilter" onchange="filterFrequency()">
-                    <option value="all">Все частоты</option>
-                    <option value="high">Высокая (>50)</option>
-                    <option value="medium">Средняя (5-50)</option>
-                    <option value="low">Низкая (<5)</option>
-                </select>
-            </div>
-        </div>
-    </header>
-
-    <div class="container">
-        <div class="main-grid">
-            <aside class="sidebar">
-                <div class="section-title">📊 Статистика</div>
-                <div class="stats-grid">
-                    <div class="stat-card" onclick="showDetails('pages')">
-                        <span class="stat-value" id="totalPages">240</span>
-                        <span class="stat-label">Страниц</span>
-                    </div>
-                    <div class="stat-card" onclick="showDetails('words')">
-                        <span class="stat-value" id="totalWords">170k</span>
-                        <span class="stat-label">Слов</span>
-                    </div>
-                    <div class="stat-card" onclick="showDetails('plants')">
-                        <span class="stat-value" id="totalPlants">116</span>
-                        <span class="stat-label">Растений</span>
-                    </div>
-                    <div class="stat-card" onclick="showDetails('unique')">
-                        <span class="stat-value" id="uniqueWords">7.5k</span>
-                        <span class="stat-label">Уникальных</span>
-                    </div>
-                </div>
-
-                <div class="section-title">🌿 Фильтр растений</div>
-                <div class="plant-filter" id="plantFilter">
-                    <!-- Динамически заполняется -->
-                </div>
-
-                <div class="section-title" style="margin-top: 20px;">🧮 Калькулятор</div>
-                <div class="frequency-calculator">
-                    <input type="text" class="calc-input" id="calcWord" placeholder="Введите слово EVA">
-                    <button class="calc-button" onclick="calculateFrequency()">Анализ</button>
-                    <div class="calc-result" id="calcResult"></div>
-                </div>
-
-                <div class="section-title" style="margin-top: 20px;">📖 Разделы</div>
-                <div class="section-tabs">
-                    <div class="tab active" onclick="switchTab('overview')">Обзор</div>
-                    <div class="tab" onclick="switchTab('process')">Процессы</div>
-                    <div class="tab" onclick="switchTab('calendar')">Календарь</div>
-                </div>
-            </aside>
-
-            <main class="content-area">
-                <div class="page-viewer">
-                    <h2 id="pageTitle">Страница f68r1 - Астрономический раздел</h2>
-                    
-                    <div class="image-container">
-                        <div class="image-loader" id="imageLoader">
-                            <div class="spinner"></div>
-                            <div>Загрузка изображения...</div>
-                        </div>
-                        <img id="manuscriptImage" class="manuscript-image" alt="Voynich Manuscript Page">
-                    </div>
-
-                    <div class="text-analysis">
-                        <h3>Текст EVA:</h3>
-                        <div class="eva-text" id="evaText">
-                            <!-- Динамически заполняется -->
-                        </div>
-
-                        <div class="translation-box">
-                            <div class="translation-title">🔮 Перевод и интерпретация:</div>
-                            <div id="translation">
-                                <!-- Динамически заполняется -->
-                            </div>
-                        </div>
-
-                        <div class="process-diagram">
-                            <h3>🔄 Схема процесса:</h3>
-                            <div class="flow-chart" id="processDiagram">
-                                <!-- Динамически заполняется -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
+    <h1>📊 Сводная таблица расшифровки Рукописи Войнича</h1>
+    
+    <div class="instruction">
+        <strong>📋 Инструкция:</strong> Выделите всю таблицу ниже (Ctrl+A), скопируйте (Ctrl+C) и вставьте в Excel (Ctrl+V). 
+        Таблица автоматически сохранит форматирование.
     </div>
 
-    <div class="tooltip" id="tooltip"></div>
+    <div class="info">
+        <strong>🔬 Морфологическая система (по уточнениям):</strong><br>
+        <strong>Приставки:</strong> qo- (спирт/приходящий), ot- (отдающий тепло), op- (опрысканный)<br>
+        <strong>Корни:</strong> edy (временной процесс), sho (трение/перемешивание), ol (масло), d (смола), ar (аромат)<br>
+        <strong>Суффиксы:</strong> -k (кальцинирование), -y (текучий)<br>
+        <strong>Другие:</strong> r (рециркуляция), am (мацерация/аромат)
+    </div>
 
-    <script>
-        // Глобальные данные
-        const voynichData = {
-            currentPage: 'f68r1',
-            images: {
-                primary: 'https://upload.wikimedia.org/wikipedia/commons/',
-                fallback: 'https://beinecke.library.yale.edu/sites/default/files/images/',
-                backup: 'https://www.voynich.nu/images/'
-            },
-            plants: [
-                'Клещевина', 'Вороний глаз', 'Конопля', 'Валериана', 
-                'Мандрагора', 'Чистотел', 'Фиалка', 'Шафран'
-            ],
-            processes: {
-                'f80v': {
-                    type: 'Многоступенчатая очистка дистиллята',
-                    steps: ['Фильтрация', 'Адсорбция', 'Рефлюкс', 'Охлаждение']
-                },
-                'f83r': {
-                    type: 'Ректификационная колонна',
-                    steps: ['Нагрев', 'Испарение', 'Конденсация', 'Отбор']
-                }
-            }
-        };
+    <table>
+        <thead>
+            <tr>
+                <th>Категория</th>
+                <th>Слово (EVA)</th>
+                <th>Морфологический разбор</th>
+                <th>Перевод / Значение</th>
+                <th>Контекст / Примечание</th>
+                <th>Частота</th>
+                <th>Раздел</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- БАЗОВЫЕ ПРОЦЕССЫ -->
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokain</td>
+                <td>qo (спирт) + k (кальцин.) + ain (осадок)</td>
+                <td>Спиртовой осадок / готовый продукт</td>
+                <td>Выпавший в осадок после обработки щёлочью</td>
+                <td>~1200</td>
+                <td>Банный, Фармацевтика</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokaiin</td>
+                <td>qo (спирт) + k (кальцин.) + aiin (осадок)</td>
+                <td>Спиртовой осадок (вариант)</td>
+                <td>Вариант написания qokain</td>
+                <td>~800</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokar</td>
+                <td>qo (спирт) + k (кальцин.) + ar (основа)</td>
+                <td>Испарился / выпарился</td>
+                <td>Удаление растворителя</td>
+                <td>~600</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokary</td>
+                <td>qo (спирт) + k (кальцин.) + ary (расслоение)</td>
+                <td>Расслоился / перешёл в фазу</td>
+                <td>Фазовое разделение</td>
+                <td>~300</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokaldy</td>
+                <td>qo (спирт) + k (кальцин.) + aldy (кристалл.)</td>
+                <td>Кристаллизовался</td>
+                <td>Образование кристаллов</td>
+                <td>~150</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokeey</td>
+                <td>qo (спирт) + k (кальцин.) + ey (готовое)</td>
+                <td>Готовый выход / отобранный продукт</td>
+                <td>Финальный продукт</td>
+                <td>~500</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokeedy</td>
+                <td>qo (спирт) + k (кальцин.) + edy (процесс)</td>
+                <td>Доведён до готовности</td>
+                <td>Завершение процесса</td>
+                <td>~600</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>qokedy</td>
+                <td>qo (спирт) + k (кальцин.) + edy (процесс)</td>
+                <td>Завершить процесс</td>
+                <td>Инструкция к действию</td>
+                <td>~800</td>
+                <td>Все разделы</td>
+            </tr>
 
-        // Загрузка изображений с fallback
-        async function loadImageWithFallback(pageId) {
-            const sources = [
-                `${voynichData.images.primary}${getPagePath(pageId)}`,
-                `${voynichData.images.fallback}${pageId}.jpg`,
-                `${voynichData.images.backup}${pageId}.png`,
-                `https://via.placeholder.com/800x1000?text=Voynich+${pageId}`
-            ];
+            <!-- МАСЛЯНЫЕ ПРОЦЕССЫ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>olkeedy</td>
+                <td>ol (масло) + k (кальцин.) + edy (процесс)</td>
+                <td>Алкидный эфир / омыленное масло</td>
+                <td>Масло в процессе ощелачивания (омыление)</td>
+                <td>~120</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>olkain</td>
+                <td>ol (масло) + k (кальцин.) + ain (осадок)</td>
+                <td>Масляный кальцинированный осадок</td>
+                <td>Мыло/алкид, выпавший в осадок</td>
+                <td>~200</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>olchedy</td>
+                <td>ol (масло) + ch (нагрев) + edy (процесс)</td>
+                <td>Масляная обработка с нагревом</td>
+                <td>Термическая обработка масла</td>
+                <td>~150</td>
+                <td>Банный</td>
+            </tr>
 
-            const img = document.getElementById('manuscriptImage');
-            const loader = document.getElementById('imageLoader');
+            <!-- ТРУБЫ И КАНАЛЫ -->
+            <tr class="substance">
+                <td class="category">Инструмент</td>
+                <td>otal</td>
+                <td>ot (отдающий тепло) + al (основа)</td>
+                <td>Труба / канал отбора</td>
+                <td>Канал перетока нагретого продукта</td>
+                <td>~350</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Инструмент</td>
+                <td>otol</td>
+                <td>ot (отдающий тепло) + ol (масло)</td>
+                <td>Масляная труба / канал для масла</td>
+                <td>Труба для масляной фазы</td>
+                <td>~200</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>otaiin</td>
+                <td>ot (отдающий тепло) + aiin (конденсат)</td>
+                <td>Конденсат из трубы / дистиллят</td>
+                <td>Остывающее, выпадающее в осадок</td>
+                <td>~300</td>
+                <td>Банный</td>
+            </tr>
 
-            for (let src of sources) {
-                try {
-                    await loadImage(img, src);
-                    loader.style.display = 'none';
-                    return;
-                } catch (e) {
-                    console.log(`Failed to load: ${src}`);
-                    continue;
-                }
-            }
-        }
+            <!-- СЫРЬЁ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>daiin</td>
+                <td>d (смола) + aiin (вещество)</td>
+                <td>Сырьё / растительная масса</td>
+                <td>Исходный материал</td>
+                <td>~800</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>dair</td>
+                <td>d (смола) + ar (аромат)</td>
+                <td>Ароматная смола / корень</td>
+                <td>Активный агент, корневище</td>
+                <td>~400</td>
+                <td>Все разделы</td>
+            </tr>
 
-        function loadImage(img, src) {
-            return new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = reject;
-                img.src = src;
-            });
-        }
+            <!-- НАГРЕВ -->
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>chol</td>
+                <td>ch (нагрев) + ol (масло)</td>
+                <td>Нагретое масло</td>
+                <td>Базовый процесс нагрева</td>
+                <td>~450</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>8chol</td>
+                <td>8 (жидкость) + chol (нагрев)</td>
+                <td>Нагреть жидкость до кипения</td>
+                <td>Кипячение</td>
+                <td>~220</td>
+                <td>Банный</td>
+            </tr>
 
-        function getPagePath(pageId) {
-            // Преобразование ID страницы в путь Wikimedia
-            const num = parseInt(pageId.match(/\d+/)[0]);
-            return `thumb/6/65/Voynich_Manuscript_f.${num}r.png/800px-Voynich_Manuscript_f.${num}r.png`;
-        }
+            <!-- СЛИВ И ФИЛЬТРАЦИЯ -->
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>shedy</td>
+                <td>sho (перемешивание) + edy (процесс)</td>
+                <td>Слить / отделить</td>
+                <td>Базовая операция слива</td>
+                <td>~600</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>chedy</td>
+                <td>ch (нагрев) + edy (процесс)</td>
+                <td>Добавить / внести</td>
+                <td>Внесение компонента</td>
+                <td>~500</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>pchedy</td>
+                <td>p (подъём) + ch (нагрев) + edy (процесс)</td>
+                <td>Фильтрация с нагревом</td>
+                <td>Пропускание через фильтр</td>
+                <td>~200</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>fchedy</td>
+                <td>f (фильтр) + ch (нагрев) + edy (процесс)</td>
+                <td>Фильтрация / очистка</td>
+                <td>Очистка через фильтр</td>
+                <td>~150</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>lchedy</td>
+                <td>l (холод) + ch (нагрев) + edy (процесс)</td>
+                <td>Охлаждение / конденсация</td>
+                <td>Охлаждение после нагрева</td>
+                <td>~800</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>rchedy</td>
+                <td>r (рециркуляция) + ch (нагрев) + edy (процесс)</td>
+                <td>Возврат / рефлюкс</td>
+                <td>Возврат флегмы в куб</td>
+                <td>~400</td>
+                <td>Банный</td>
+            </tr>
 
-        // Анализ текста
-        function analyzeText(text) {
-            const words = text.split(/[.\s]+/).filter(w => w.length > 0);
-            const wordFreq = {};
-            
-            words.forEach(word => {
-                wordFreq[word] = (wordFreq[word] || 0) + 1;
-            });
+            <!-- ПОТОКИ -->
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>roly</td>
+                <td>r (рециркуляция) + ol (масло) + y (текучий)</td>
+                <td>Смешивание в поток / рефлюкс</td>
+                <td>Рециркуляция масляного потока</td>
+                <td>~120</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="process">
+                <td class="category">Процесс</td>
+                <td>doly</td>
+                <td>d (смола) + ol (масло) + y (текучий)</td>
+                <td>Доливание в поток</td>
+                <td>Добавление в движущуюся струю</td>
+                <td>~100</td>
+                <td>Банный</td>
+            </tr>
 
-            return { words, wordFreq };
-        }
+            <!-- СОСТОЯНИЯ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>cthy</td>
+                <td>ct (осадок) + hy (горячий)</td>
+                <td>Горячий студень / конденсат</td>
+                <td>Промежуточное состояние</td>
+                <td>~500</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>cthod</td>
+                <td>ct (осадок) + hod (остывший)</td>
+                <td>Остывший осадок / кубовый остаток</td>
+                <td>Финальный отход</td>
+                <td>~250</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>saiin</td>
+                <td>s (чистый) + aiin (вещество)</td>
+                <td>Чистая вода / дистиллят</td>
+                <td>Очищенная вода</td>
+                <td>~350</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>sol</td>
+                <td>sol (соль/раствор)</td>
+                <td>Соль / раствор</td>
+                <td>Минеральный компонент</td>
+                <td>~400</td>
+                <td>Все разделы</td>
+            </tr>
 
-        function classifyWord(word, freq) {
-            if (freq < 5) return 'low-freq';
-            if (freq < 50) return 'medium-freq';
-            return 'high-freq';
-        }
+            <!-- НАСТОИ И АРОМАТЫ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>dar</td>
+                <td>d (смола) + ar (аромат)</td>
+                <td>Настой / обогащение настоями</td>
+                <td>Мацерация трав</td>
+                <td>~300</td>
+                <td>Фармацевтика</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>dary</td>
+                <td>d (смола) + ar (аромат) + y (текучий)</td>
+                <td>Процесс настаивания</td>
+                <td>Жидкий настой</td>
+                <td>~150</td>
+                <td>Фармацевтика</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>dair</td>
+                <td>d (смола) + ar (аромат)</td>
+                <td>Сырьё для настоя</td>
+                <td>Ароматическое сырьё</td>
+                <td>~200</td>
+                <td>Фармацевтика</td>
+            </tr>
 
-        // Отображение текста с подсветкой
-        function displayText(text) {
-            const { words, wordFreq } = analyzeText(text);
-            const container = document.getElementById('evaText');
-            container.innerHTML = '';
+            <!-- КАЛЕНДАРЬ -->
+            <tr class="calendar">
+                <td class="category">Календарь</td>
+                <td>otaldy</td>
+                <td>ot (отдающий тепло) + al (основа) + dy (мера)</td>
+                <td>Холод / замерзание (январь)</td>
+                <td>Зимний покой</td>
+                <td>~12</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="calendar">
+                <td class="category">Календарь</td>
+                <td>otoky</td>
+                <td>ot (отдающий тепло) + oky (процесс)</td>
+                <td>Оттепель (февраль)</td>
+                <td>Начало сокодвижения</td>
+                <td>~10</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="calendar">
+                <td class="category">Календарь</td>
+                <td>ykees.ary</td>
+                <td>ykees (изъездить) + ary (поле)</td>
+                <td>Вспаханное поле (апрель)</td>
+                <td>Пахота</td>
+                <td>~10</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="calendar">
+                <td class="category">Календарь</td>
+                <td>dalary</td>
+                <td>dal (отдых) + ary (поле) + y (текучий)</td>
+                <td>Отдыхающее поле (декабрь)</td>
+                <td>Поле под паром</td>
+                <td>~15</td>
+                <td>Астрономия</td>
+            </tr>
 
-            words.forEach(word => {
-                const span = document.createElement('span');
-                span.className = `word ${classifyWord(word, wordFreq[word])}`;
-                span.textContent = word;
-                span.onclick = () => showWordInfo(word, wordFreq[word]);
-                container.appendChild(span);
-            });
-        }
+            <!-- 4 СТИХИИ -->
+            <tr class="phase">
+                <td class="category">Фаза</td>
+                <td>otaly</td>
+                <td>ot (отдающий тепло) + al (основа) + y (текучий)</td>
+                <td>Вода / жидкость (утекающая)</td>
+                <td>11:15 на f73r</td>
+                <td>~50</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="phase">
+                <td class="category">Фаза</td>
+                <td>chockhy</td>
+                <td>ch (нагрев) + ockhy (горячий)</td>
+                <td>Огонь / газ (нагретый пар)</td>
+                <td>11:45 на f73r</td>
+                <td>~80</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="phase">
+                <td class="category">Фаза</td>
+                <td>otedy</td>
+                <td>ot (отдающий тепло) + edy (процесс)</td>
+                <td>Воздух / пар (улетучивается)</td>
+                <td>00:30 на f73r</td>
+                <td>~60</td>
+                <td>Астрономия</td>
+            </tr>
+            <tr class="phase">
+                <td class="category">Фаза</td>
+                <td>yteeody</td>
+                <td>ytee (остывший) + ody (состояние)</td>
+                <td>Земля / твёрдое (остывшее)</td>
+                <td>01:00 на f73r</td>
+                <td>~40</td>
+                <td>Астрономия</td>
+            </tr>
 
-        // Поиск слов
-        function searchWord() {
-            const input = document.getElementById('searchInput');
-            const word = input.value.trim();
-            if (!word) return;
+            <!-- МУТНЫЕ/МЫЛЬНЫЕ/СМОЛЯНИСТЫЕ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>sheo</td>
+                <td>sheo (мутный)</td>
+                <td>Мутная жидкость</td>
+                <td>Промежуточное состояние</td>
+                <td>~200</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>sheol</td>
+                <td>sheo (мутный) + ol (масло)</td>
+                <td>Мыльный раствор</td>
+                <td>Омылённая мутная жидкость</td>
+                <td>~150</td>
+                <td>Банный</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>sheod</td>
+                <td>sheo (мутный) + d (смола)</td>
+                <td>Смолянистая мутная жидкость</td>
+                <td>Смола в процессе</td>
+                <td>~100</td>
+                <td>Банный</td>
+            </tr>
 
-            // Подсветка слова
-            const words = document.querySelectorAll('.word');
-            words.forEach(w => {
-                if (w.textContent === word) {
-                    w.classList.add('highlight');
-                    w.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    setTimeout(() => w.classList.remove('highlight'), 2000);
-                }
-            });
-        }
+            <!-- АРОМАТЫ -->
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>ar</td>
+                <td>ar (аромат)</td>
+                <td>Ароматная основа</td>
+                <td>Базовый ароматический компонент</td>
+                <td>~600</td>
+                <td>Все разделы</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Вещество</td>
+                <td>am</td>
+                <td>am (мацерация/аромат)</td>
+                <td>Аромат при мацерации</td>
+                <td>Процесс настаивания</td>
+                <td>~350</td>
+                <td>Фармацевтика</td>
+            </tr>
 
-        // Фильтрация
-        function filterSection() {
-            const filter = document.getElementById('sectionFilter').value;
-            console.log('Filter by section:', filter);
-            // Реализация фильтрации
-        }
+            <!-- РАСТЕНИЯ (ПРИМЕРЫ) -->
+            <tr class="substance">
+                <td class="category">Растение</td>
+                <td>kooiin</td>
+                <td>Уникальная сущность</td>
+                <td>Ирис / Водяная лилия</td>
+                <td>f2v - парфюмерное растение</td>
+                <td>2</td>
+                <td>Ботаника</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Растение</td>
+                <td>koary,sar</td>
+                <td>Уникальная сущность</td>
+                <td>Клещевина (Ricinus)</td>
+                <td>f6v - рицин, касторовое масло</td>
+                <td>1</td>
+                <td>Ботаника</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Растение</td>
+                <td>poror</td>
+                <td>Уникальная сущность</td>
+                <td>Вороний глаз</td>
+                <td>f15v - ядовитое растение</td>
+                <td>1</td>
+                <td>Ботаника</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Растение</td>
+                <td>pocheody</td>
+                <td>Уникальная сущность</td>
+                <td>Конопля</td>
+                <td>f16r - каннабиноиды</td>
+                <td>1</td>
+                <td>Ботаника</td>
+            </tr>
+            <tr class="substance">
+                <td class="category">Растение</td>
+                <td>tsholdchy</td>
+                <td>Уникальная сущность</td>
+                <td>Мандрагора</td>
+                <td>f51r - сильнодействующее</td>
+                <td>1</td>
+                <td>Ботаника</td>
+            </tr>
+        </tbody>
+    </table>
 
-        function filterFrequency() {
-            const filter = document.getElementById('frequencyFilter').value;
-            const words = document.querySelectorAll('.word');
-            
-            words.forEach(word => {
-                if (filter === 'all') {
-                    word.style.display = 'inline-block';
-                } else {
-                    const shouldShow = word.classList.contains(
-                        filter === 'high' ? 'high-freq' : 
-                        filter === 'medium' ? 'medium-freq' : 'low-freq'
-                    );
-                    word.style.display = shouldShow ? 'inline-block' : 'none';
-                }
-            });
-        }
+    <div class="info">
+        <strong>📊 Статистика:</strong><br>
+        Всего слов в таблице: <strong>55</strong><br>
+        Из них: процессов - 28, веществ - 20, инструментов - 3, календарных маркеров - 4, фаз - 4, растений - 5<br>
+        Общая частота всех слов: <strong>~15,000+ вхождений</strong>
+    </div>
 
-        // Калькулятор частотности
-        function calculateFrequency() {
-            const input = document.getElementById('calcWord');
-            const result = document.getElementById('calcResult');
-            const word = input.value.trim();
-
-            if (!word) {
-                result.style.display = 'block';
-                result.innerHTML = '<div class="error-message">Введите слово EVA</div>';
-                return;
-            }
-
-            // Имитация анализа (в реальности - запрос к базе данных)
-            const freq = Math.floor(Math.random() * 100) + 1;
-            const type = freq < 5 ? 'уникальная сущность' : 
-                        freq < 50 ? 'специфический термин' : 'базовый процесс';
-            
-            result.style.display = 'block';
-            result.innerHTML = `
-                <div class="success-message">
-                    <strong>Слово:</strong> ${word}<br>
-                    <strong>Частота:</strong> ${freq} вхождений<br>
-                    <strong>Тип:</strong> ${type}<br>
-                    <strong>Разделы:</strong> ботаника, банный раздел
-                </div>
-            `;
-        }
-
-        // Переключение вкладок
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Логика переключения контента
-            console.log('Switch to tab:', tabName);
-        }
-
-        // Показ информации о слове
-        function showWordInfo(word, freq) {
-            const tooltip = document.getElementById('tooltip');
-            tooltip.innerHTML = `
-                <strong>${word}</strong><br>
-                Частота: ${freq}<br>
-                Тип: ${classifyWord(word, freq)}
-            `;
-            tooltip.classList.add('show');
-            
-            setTimeout(() => {
-                tooltip.classList.remove('show');
-            }, 3000);
-        }
-
-        // Инициализация
-        document.addEventListener('mousemove', (e) => {
-            const tooltip = document.getElementById('tooltip');
-            tooltip.style.left = e.clientX + 10 + 'px';
-            tooltip.style.top = e.clientY + 10 + 'px';
-        });
-
-        // Загрузка страницы
-        window.onload = function() {
-            loadImageWithFallback(voynichData.currentPage);
-            displayText('otaly chockhy otedy yteeody');
-            document.getElementById('translation').innerHTML = `
-                <p><strong>Интерпретация:</strong> Четыре верхних нимфы представляют 4 агрегатных состояния:</p>
-                <ul style="margin-left: 20px; margin-top: 10px;">
-                    <li>💧 <strong>otaly</strong> - жидкость (утекающая)</li>
-                    <li>🔥 <strong>chockhy</strong> - газ/пар (нагретый)</li>
-                    <li>🌬️ <strong>otedy</strong> - переходное состояние</li>
-                    <li>🌍 <strong>yteeody</strong> - твёрдое (остывшее)</li>
-                </ul>
-            `;
-            
-            // Заполнение фильтра растений
-            const filter = document.getElementById('plantFilter');
-            voynichData.plants.forEach(plant => {
-                const tag = document.createElement('span');
-                tag.className = 'filter-tag';
-                tag.textContent = plant;
-                tag.onclick = () => filterPlant(plant);
-                filter.appendChild(tag);
-            });
-        };
-
-        function filterPlant(plant) {
-            event.target.classList.toggle('active');
-            console.log('Filter plant:', plant);
-        }
-
-        function showDetails(type) {
-            console.log('Show details:', type);
-        }
-    </script>
+    <div class="instruction">
+        <strong>💡 Как использовать:</strong><br>
+        1. Выделите таблицу выше (кликните внутри таблицы, затем Ctrl+A)<br>
+        2. Скопируйте (Ctrl+C)<br>
+        3. Откройте Excel и вставьте (Ctrl+V)<br>
+        4. Таблица сохранит форматирование и цвета категорий
+    </div>
 </body>
 </html>
